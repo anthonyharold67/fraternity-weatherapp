@@ -4,10 +4,11 @@ import requests
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import City
+from decouple import config
 
 # Create your views here.
 def index(request):
-    API_KEY = "9b7b76c163c49546844ac105baf73632"
+    API_KEY = config("API_KEY")
     url = f"http://api.openweathermap.org/data/2.5/weather?q=istanbul&appid={API_KEY}&units=metric"
     res = requests.get(url)
     data = res.json()
@@ -26,7 +27,7 @@ def index(request):
 @login_required
 def home(request):
     city = request.GET.get("city")
-    API_KEY = "9b7b76c163c49546844ac105baf73632"
+    API_KEY = config("API_KEY")
 
     if city:
         url =f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric'
